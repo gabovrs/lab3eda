@@ -30,33 +30,97 @@ public class Dataset {
 
     public ArrayList<Game> getGamesByPriceRange(int low, int high) {
         ArrayList<Game> result = new ArrayList<>();
-        for (Game game : data) {
-            if (game.getPrice() >= low && game.getPrice() <= high)
-                result.add(game);
+
+        if (sortedByAttribute.equals("price")) {
+            int lowIndex = 0, highIndex = data.size() - 1;
+            while (lowIndex <= highIndex) {
+                int mid = (lowIndex + highIndex) / 2;
+                if (data.get(mid).getPrice() < low) {
+                    lowIndex = mid + 1;
+                } else if (data.get(mid).getPrice() > high) {
+                    highIndex = mid - 1;
+                } else {
+                    int left = mid;
+                    while (left >= 0 && data.get(left).getPrice() >= low && data.get(left).getPrice() <= high) {
+                        result.add(data.get(left));
+                        left--;
+                    }
+                    int right = mid + 1;
+                    while (right < data.size() && data.get(right).getPrice() >= low
+                            && data.get(right).getPrice() <= high) {
+                        result.add(data.get(right));
+                        right++;
+                    }
+                    break;
+                }
+            }
+        } else {
+            for (Game game : data)
+                if (game.getPrice() >= low && game.getPrice() <= high)
+                    result.add(game);
         }
+
         return result;
     }
 
     public ArrayList<Game> getGamesByCategory(String category) {
         ArrayList<Game> result = new ArrayList<>();
+
         if (sortedByAttribute.equals("category")) {
-            for (Game game : data)
-                if (game.getCategory().equals(category))
-                    result.add(game);
+            int low = 0, high = data.size() - 1;
+            while (low <= high) {
+                int mid = (low + high) / 2;
+                if (data.get(mid).getCategory().equals(category)) {
+                    int left = mid;
+                    while (left >= 0 && data.get(left).getCategory().equals(category)) {
+                        result.add(data.get(left));
+                        left--;
+                    }
+                    int right = mid + 1;
+                    while (right < data.size() && data.get(right).getCategory().equals(category)) {
+                        result.add(data.get(right));
+                        right++;
+                    }
+                    break;
+                } else if (data.get(mid).getCategory().compareTo(category) < 0) {
+                    low = mid + 1;
+                } else {
+                    high = mid - 1;
+                }
+            }
         } else {
             for (Game game : data)
                 if (game.getCategory().equals(category))
                     result.add(game);
         }
+
         return result;
     }
 
     public ArrayList<Game> getGamesByQuality(int quality) {
         ArrayList<Game> result = new ArrayList<>();
         if (sortedByAttribute.equals("quality")) {
-            for (Game game : data)
-                if (game.getQuality() == quality)
-                    result.add(game);
+            int low = 0, high = data.size() - 1;
+            while (low <= high) {
+                int mid = (low + high) / 2;
+                if (data.get(mid).getQuality() == quality) {
+                    int left = mid;
+                    while (left >= 0 && data.get(left).getQuality() == quality) {
+                        result.add(data.get(left));
+                        left--;
+                    }
+                    int right = mid + 1;
+                    while (right < data.size() && data.get(right).getQuality() == quality) {
+                        result.add(data.get(right));
+                        right++;
+                    }
+                    break;
+                } else if (data.get(mid).getQuality() < quality) {
+                    low = mid + 1;
+                } else {
+                    high = mid - 1;
+                }
+            }
         } else {
             for (Game game : data)
                 if (game.getQuality() == quality)

@@ -57,7 +57,7 @@ public class Benchmark {
                     totalTime += time;
                 }
                 long avgTime = totalTime / 3;
-                String label = (avgTime > 300_000) ? ">300000" : avgTime + "";
+                String label = avgTime + "";
                 System.out.printf("%-15s %-20s\n", algorithm, label);
             }
         }
@@ -90,15 +90,15 @@ public class Benchmark {
         System.out.println("getGamesByQuality: " + benchmarkSearchQuality(ds, 80) + " ms");
 
         Dataset dsSorted = new Dataset(new ArrayList<>(original));
-        dsSorted.sortByAlgorithm("quickSort", "price");
+        dsSorted.sortByAlgorithm("mergeSort", "price");
         System.out.println("\n>> Búsqueda binaria (ordenado por price):");
         System.out.println("getGamesByPrice: " + benchmarkSearchPrice(dsSorted, 5000) + " ms");
         System.out.println("getGamesByPriceRange: " + benchmarkSearchRange(dsSorted, 5000, 10000) + " ms");
 
-        dsSorted.sortByAlgorithm("quickSort", "category");
+        dsSorted.sortByAlgorithm("mergeSort", "category");
         System.out.println("getGamesByCategory: " + benchmarkSearchCategory(dsSorted, "RPG") + " ms");
 
-        dsSorted.sortByAlgorithm("quickSort", "quality");
+        dsSorted.sortByAlgorithm("mergeSort", "quality");
         System.out.println("getGamesByQuality: " + benchmarkSearchQuality(dsSorted, 80) + " ms");
     }
 }
